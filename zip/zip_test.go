@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestExampleArchiveFile(t *testing.T) {
+func TestExampleZip(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "test_zip")
 	if err != nil {
 		t.Fatal(err)
@@ -22,7 +22,7 @@ func TestExampleArchiveFile(t *testing.T) {
 		fmt.Println(archivePath)
 	}
 
-	err = ArchiveFile("testdata/foo/", outFilePath, progress)
+	err = Zip("testdata/foo/", outFilePath, progress)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -32,7 +32,32 @@ func TestExampleArchiveFile(t *testing.T) {
 	// foo/baz/aaa
 }
 
-func TestExampleUnarchiveFile(t *testing.T) {
+func ExampleZip() {
+	tmpDir, err := os.MkdirTemp("", "test_zip")
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		_ = os.RemoveAll(tmpDir)
+	}()
+
+	outFilePath := filepath.Join(tmpDir, "foo.zip")
+
+	progress := func(archivePath string) {
+		fmt.Println(archivePath)
+	}
+
+	err = Zip("testdata/foo/", outFilePath, progress)
+	if err != nil {
+		panic(err)
+	}
+
+	// Output:
+	// foo/bar
+	// foo/baz/aaa
+}
+
+func TestExampleUnzip(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "test_zip")
 	if err != nil {
 		t.Fatal(err)
@@ -45,9 +70,32 @@ func TestExampleUnarchiveFile(t *testing.T) {
 		fmt.Println(archivePath)
 	}
 
-	err = UnarchiveFile("testdata/foo.zip", tmpDir, progress)
+	err = Unzip("testdata/foo.zip", tmpDir, progress)
 	if err != nil {
 		t.Fatal(err)
+	}
+
+	// Output:
+	// foo/bar
+	// foo/baz/aaa
+}
+
+func ExampleUnzip() {
+	tmpDir, err := os.MkdirTemp("", "test_zip")
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		_ = os.RemoveAll(tmpDir)
+	}()
+
+	progress := func(archivePath string) {
+		fmt.Println(archivePath)
+	}
+
+	err = Unzip("testdata/foo.zip", tmpDir, progress)
+	if err != nil {
+		panic(err)
 	}
 
 	// Output:
