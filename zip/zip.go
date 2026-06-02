@@ -54,6 +54,7 @@ func Archive(inFilePath string, writer io.Writer, progress ProgressFunc) error {
 		_, err = io.Copy(zipFileWriter, file)
 		return err
 	})
+
 	if err != nil {
 		return err
 	}

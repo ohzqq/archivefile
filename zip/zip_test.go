@@ -22,7 +22,7 @@ func TestExampleArchiveFile(t *testing.T) {
 		fmt.Println(archivePath)
 	}
 
-	err = ArchiveFile("testdata/foo", outFilePath, progress)
+	err = ArchiveFile("testdata/foo/", outFilePath, progress)
 	if err != nil {
 		t.Fatal(err)
 	}
