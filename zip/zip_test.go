@@ -2,15 +2,15 @@ package zip
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
+	"testing"
 )
 
-func ExampleArchiveFile() {
-	tmpDir, err := ioutil.TempDir("", "test_zip")
+func TestExampleArchiveFile(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "test_zip")
 	if err != nil {
-		panic(err)
+		t.Fatal(err)
 	}
 	defer func() {
 		_ = os.RemoveAll(tmpDir)
@@ -24,7 +24,7 @@ func ExampleArchiveFile() {
 
 	err = ArchiveFile("testdata/foo", outFilePath, progress)
 	if err != nil {
-		panic(err)
+		t.Fatal(err)
 	}
 
 	// Output:
@@ -32,10 +32,10 @@ func ExampleArchiveFile() {
 	// foo/baz/aaa
 }
 
-func ExampleUnarchiveFile() {
-	tmpDir, err := ioutil.TempDir("", "test_zip")
+func TestExampleUnarchiveFile(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "test_zip")
 	if err != nil {
-		panic(err)
+		t.Fatal(err)
 	}
 	defer func() {
 		_ = os.RemoveAll(tmpDir)
@@ -47,7 +47,7 @@ func ExampleUnarchiveFile() {
 
 	err = UnarchiveFile("testdata/foo.zip", tmpDir, progress)
 	if err != nil {
-		panic(err)
+		t.Fatal(err)
 	}
 
 	// Output:
